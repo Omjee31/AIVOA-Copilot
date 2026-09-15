@@ -1,0 +1,10 @@
+import { ArrowUpRight, CircleAlert, Clock3 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+
+const statusStyles = { draft: 'bg-slate-100 text-slate-600', submitted: 'bg-mint text-fern', under_review: 'bg-amber-100 text-amber-700', resolved: 'bg-blue-100 text-blue-700', closed: 'bg-slate-200 text-slate-600' }
+const formatDate = (value) => value ? new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value)) : '—'
+
+export default function ComplaintTable({ complaints }) {
+  const navigate = useNavigate()
+  return <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-panel"><div className="hidden grid-cols-[1.4fr_1fr_1fr_0.8fr_42px] gap-4 border-b border-line bg-paper px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 md:grid"><span>Complaint</span><span>Created</span><span>Updated</span><span>Status</span><span /></div>{complaints.map((complaint) => <button key={complaint.id} onClick={() => navigate(`/complaints/${complaint.id}`)} className="grid w-full grid-cols-1 gap-3 border-b border-line px-5 py-4 text-left transition last:border-0 hover:bg-mint/25 md:grid-cols-[1.4fr_1fr_1fr_0.8fr_42px] md:items-center md:gap-4"><span><span className="block font-display font-bold text-ink">{complaint.product_name}</span><span className="mt-1 block max-w-md truncate text-sm text-slate-500">{complaint.problem_description}</span></span><span className="flex items-center gap-2 text-sm text-slate-500 md:block"><Clock3 size={14} className="md:hidden" />{formatDate(complaint.created_at)}</span><span className="hidden text-sm text-slate-500 md:block">{formatDate(complaint.updated_at)}</span><span className={`w-fit rounded-full px-2.5 py-1 text-xs font-bold capitalize ${statusStyles[complaint.status] || statusStyles.draft}`}>{complaint.status?.replace('_', ' ')}</span><span className="hidden place-items-center text-slate-400 md:grid"><ArrowUpRight size={17} /></span></button>)}{complaints.length === 0 && <div className="px-6 py-12 text-center text-sm text-slate-500">No complaints found.</div>}</div>
+}

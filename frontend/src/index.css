@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #162329;
+  background: #f5f7f4;
+  font-family: 'Source Sans 3', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input, textarea { font: inherit; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible { outline: 3px solid rgba(216, 120, 93, 0.45); outline-offset: 2px; }
+
+.paper-grid {
+  background-color: #f5f7f4;
+  background-image: linear-gradient(rgba(47, 109, 90, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(47, 109, 90, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.animate-enter { animation: enter 420ms ease-out both; }
+.animate-delay-1 { animation-delay: 80ms; }
+.animate-delay-2 { animation-delay: 160ms; }
+@keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@layer components {
+  .label { @apply block text-[11px] font-bold uppercase tracking-wider text-slate-400; }
+  .input { @apply mt-2 w-full rounded-xl border border-line bg-paper px-3.5 py-3 text-sm text-ink outline-none transition placeholder:text-slate-400 focus:border-fern focus:bg-white; }
+  .intake-field { @apply block h-7 w-full rounded border border-slate-300 bg-white px-2 text-[10px] text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#2d6cdf] focus:ring-1 focus:ring-blue-100; }
+}

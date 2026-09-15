@@ -1,0 +1,11 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import AuthShell from '../components/auth/AuthShell'
+import { getApiError } from '../api/client'
+import { useAuth } from '../context/AuthContext'
+
+export default function RegisterPage() {
+  const { register } = useAuth(); const navigate = useNavigate(); const [form, setForm] = useState({ full_name: '', email: '', password: '' }); const [error, setError] = useState(''); const [loading, setLoading] = useState(false)
+  const submit = async (event) => { event.preventDefault(); setLoading(true); setError(''); try { await register(form); navigate('/dashboard') } catch (submitError) { setError(getApiError(submitError, 'Could not create your account.')) } finally { setLoading(false) } }
+  return <AuthShell eyebrow="Start clearly" title="Create your workspace" description="Give your team a calm, traceable place to turn customer signals into action." footer={<>Already have an account? <Link className="font-bold text-fern hover:text-ink" to="/login">Sign in</Link></>}><form onSubmit={submit} className="space-y-5"><div><label className="label" htmlFor="full_name">Full name</label><input id="full_name" required minLength="1" value={form.full_name} onChange={(event) => setForm({ ...form, full_name: event.target.value })} className="input" placeholder="Avery Morgan" /></div><div><label className="label" htmlFor="email">Work email</label><input id="email" required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} className="input" placeholder="you@company.com" /></div><div><label className="label" htmlFor="password">Password</label><input id="password" required minLength="8" type="password" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} className="input" placeholder="At least 8 characters" /></div>{error && <p className="rounded-xl bg-red-50 px-3 py-2.5 text-sm text-red-700">{error}</p>}<button disabled={loading} className="w-full rounded-xl bg-ink px-4 py-3 text-sm font-bold text-white transition hover:bg-fern disabled:opacity-50">{loading ? 'Creating workspace...' : 'Create account'}</button></form></AuthShell>
+}
